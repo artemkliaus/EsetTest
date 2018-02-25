@@ -1,0 +1,90 @@
+* {
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif; }
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 570px;
+  height: 110px;
+  line-height: 110px;
+  width: 940px;
+  margin: 0 auto; }
+  .header__logo-circle {
+    display: inline-block;
+    vertical-align: top;
+    width: 35px;
+    height: 35px;
+    background-image: linear-gradient(to right, #86c840 0%, #72a839 60%);
+    border-radius: 50%;
+    position: relative;
+    top: 36px; }
+    .header__logo-circle::after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-image: linear-gradient(to right, #f6e73b 0%, #cec235 60%);
+      border-radius: 50%;
+      top: calc(50% - 10px);
+      left: calc(50% - 10px); }
+  .header__logo-text {
+    text-transform: uppercase;
+    font-size: 24px; }
+    .header__logo-text_green {
+      color: #86c840; }
+  .header__list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); }
+    .header__list-item {
+      position: relative;
+      display: inline-block;
+      font-size: 16px;
+      text-align: center; }
+      .header__list-item-link {
+        text-decoration: none;
+        color: #222; }
+        .header__list-item-link_active::after {
+          content: '';
+          position: absolute;
+          bottom: 31%;
+          left: 47%;
+          width: 8px;
+          height: 8px;
+          background-color: #86c840;
+          border-radius: 50%; }
+      .header__list-item-pic {
+        display: inline-block;
+        vertical-align: top;
+        width: 13px;
+        height: 12px;
+        position: absolute;
+        top: calc(50% - 6px);
+        left: calc(50% - 6px);
+        background-image: url(53720ccb177907e490f9959048b80495.png);
+        background-repeat: no-repeat;
+        background-size: auto; }
+
+.list-of-penguins {
+  font-size: 100%;
+  font-family: 'Roboto', sans-serif;
+  color: #555; }
+  .list-of-penguins .penguin-image {
+    display: block;
+    height: 12em; }
+  .list-of-penguins .button {
+    color: #333;
+    display: inline-block;
+    width: 7.8em;
+    text-decoration: none;
+    text-align: center;
+    line-height: 1.5em;
+    border: .06em solid #0066cc; }
+  .list-of-penguins .next {
+    margin-left: 1.5em; }
+
+/*# sourceMappingURL=styles.css.map*/
