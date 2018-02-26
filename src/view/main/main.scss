@@ -1,0 +1,32 @@
+@import '../card-block/card-block';
+
+.content {
+    width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 55px;
+    
+    &__block {
+        margin-top: 55px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-row-gap: 50px;
+        grid-column-gap: 20px;
+    }
+}
+
+.title-block {
+    max-width: 300px;
+    border-left: 6px solid #86c840;
+    padding-left: 15px;
+    
+    &__title {
+        font-size: 28px;
+    }
+    
+    &__description {
+        font-size: 16px;
+        color: #aaa;
+    }
+}
