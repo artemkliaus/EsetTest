@@ -1,31 +1,31 @@
-class PenguinView {
+class View {
     
     constructor (element) {
         this.element = element;
 
-        this.onClickGetPenguin = null;
+        this.onClickGet = null;
     }
     
     render (viewModel) {
         this.element.innerHTML = '<h3>' + viewModel.name + '</h3>' +
-            '<img class="penguin-image" src="' + viewModel.imageUrl +
+            '<img class="image" src="' + viewModel.imageUrl +
             '" alt="' + viewModel.name + '" />' +
             '<p><b>Size:</b> ' + viewModel.size + '</p>' +
             '<p><b>Favorite food:</b> ' + viewModel.favoriteFood + '</p>' +
-            '<a id="previousPenguin" class="previous button" href="javascript:void(0);"' +
-            ' data-penguin-index="' + viewModel.previousIndex + '">Previous</a> ' +
-            '<a id="nextPenguin" class="next button" href="javascript:void(0);"' +
-            ' data-penguin-index="' + viewModel.nextIndex + '">Next</a>';
+            '<a id="previous" class="previous button" href="javascript:void(0);"' +
+            ' data-index="' + viewModel.previousIndex + '">Previous</a> ' +
+            '<a id="next" class="next button" href="javascript:void(0);"' +
+            ' data-index="' + viewModel.nextIndex + '">Next</a>';
 
             this.previousIndex = viewModel.previousIndex;
             this.nextIndex = viewModel.nextIndex;
 
-        let previousPenguin = this.element.querySelector('#previousPenguin');
-        previousPenguin.addEventListener('click', this.onClickGetPenguin);
+        let previous = this.element.querySelector('#previous');
+        previous.addEventListener('click', this.onClickGet);
 
-        let nextPenguin = this.element.querySelector('#nextPenguin');
-        nextPenguin.addEventListener('click', this.onClickGetPenguin);
+        let next = this.element.querySelector('#next');
+        next.addEventListener('click', this.onClickGet);
     }
 }
 
-module.exports = PenguinView;
+module.exports = View;

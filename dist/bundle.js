@@ -86,16 +86,16 @@ var _controller2 = _interopRequireDefault(_controller);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var penguinModel = new _model2.default(XMLHttpRequest);
+var model = new _model2.default(XMLHttpRequest);
 
-var targetElement = document.getElementById('listOfPenguins');
-var penguinView = new _view2.default(targetElement);
+var targetElement = document.getElementById('listOf');
+var view = new _view2.default(targetElement);
 
-var controller = new _controller2.default(penguinView, penguinModel);
+var controller = new _controller2.default(view, model);
 
 controller.initialize();
 
-controller.onClickGetPenguin({ currentTarget: { dataset: { penguinIndex: 0 } } });
+controller.onClickGet({ currentTarget: { dataset: { index: 0 } } });
 
 /***/ }),
 /* 1 */
@@ -114,26 +114,26 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PenguinModel = function () {
-    function PenguinModel(XMLHttpRequest) {
-        _classCallCheck(this, PenguinModel);
+var Model = function () {
+    function Model(XMLHttpRequest) {
+        _classCallCheck(this, Model);
 
         this.XMLHttpRequest = XMLHttpRequest;
     }
 
-    _createClass(PenguinModel, [{
-        key: 'getPenguin',
-        value: function getPenguin(index, fn) {
+    _createClass(Model, [{
+        key: 'get',
+        value: function get(index, fn) {
             var oReq = new this.XMLHttpRequest();
 
             oReq.onload = function onLoad(e) {
                 var ajaxResponse = JSON.parse(e.currentTarget.responseText);
-                var penguin = ajaxResponse[index];
+                var p = ajaxResponse[index];
 
-                penguin.index = index;
-                penguin.count = ajaxResponse.length;
+                p.index = index;
+                p.count = ajaxResponse.length;
 
-                fn(penguin);
+                fn(p);
             };
 
             oReq.open('GET', 'https://codepen.io/beautifulcoder/pen/vmOOLr.js', true);
@@ -141,10 +141,10 @@ var PenguinModel = function () {
         }
     }]);
 
-    return PenguinModel;
+    return Model;
 }();
 
-module.exports = PenguinModel;
+module.exports = Model;
 
 /***/ }),
 /* 3 */
@@ -157,35 +157,35 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PenguinView = function () {
-    function PenguinView(element) {
-        _classCallCheck(this, PenguinView);
+var View = function () {
+    function View(element) {
+        _classCallCheck(this, View);
 
         this.element = element;
 
-        this.onClickGetPenguin = null;
+        this.onClickGet = null;
     }
 
-    _createClass(PenguinView, [{
+    _createClass(View, [{
         key: 'render',
         value: function render(viewModel) {
-            this.element.innerHTML = '<h3>' + viewModel.name + '</h3>' + '<img class="penguin-image" src="' + viewModel.imageUrl + '" alt="' + viewModel.name + '" />' + '<p><b>Size:</b> ' + viewModel.size + '</p>' + '<p><b>Favorite food:</b> ' + viewModel.favoriteFood + '</p>' + '<a id="previousPenguin" class="previous button" href="javascript:void(0);"' + ' data-penguin-index="' + viewModel.previousIndex + '">Previous</a> ' + '<a id="nextPenguin" class="next button" href="javascript:void(0);"' + ' data-penguin-index="' + viewModel.nextIndex + '">Next</a>';
+            this.element.innerHTML = '<h3>' + viewModel.name + '</h3>' + '<img class="image" src="' + viewModel.imageUrl + '" alt="' + viewModel.name + '" />' + '<p><b>Size:</b> ' + viewModel.size + '</p>' + '<p><b>Favorite food:</b> ' + viewModel.favoriteFood + '</p>' + '<a id="previous" class="previous button" href="javascript:void(0);"' + ' data-index="' + viewModel.previousIndex + '">Previous</a> ' + '<a id="next" class="next button" href="javascript:void(0);"' + ' data-index="' + viewModel.nextIndex + '">Next</a>';
 
             this.previousIndex = viewModel.previousIndex;
             this.nextIndex = viewModel.nextIndex;
 
-            var previousPenguin = this.element.querySelector('#previousPenguin');
-            previousPenguin.addEventListener('click', this.onClickGetPenguin);
+            var previous = this.element.querySelector('#previous');
+            previous.addEventListener('click', this.onClickGet);
 
-            var nextPenguin = this.element.querySelector('#nextPenguin');
-            nextPenguin.addEventListener('click', this.onClickGetPenguin);
+            var next = this.element.querySelector('#next');
+            next.addEventListener('click', this.onClickGet);
         }
     }]);
 
-    return PenguinView;
+    return View;
 }();
 
-module.exports = PenguinView;
+module.exports = View;
 
 /***/ }),
 /* 4 */
@@ -198,56 +198,56 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PenguinController = function () {
-    function PenguinController(penguinView, penguinModel) {
-        _classCallCheck(this, PenguinController);
+var Controller = function () {
+    function Controller(view, model) {
+        _classCallCheck(this, Controller);
 
-        this.penguinView = penguinView;
-        this.penguinModel = penguinModel;
+        this.view = view;
+        this.model = model;
     }
 
-    _createClass(PenguinController, [{
+    _createClass(Controller, [{
         key: "initialize",
         value: function initialize() {
-            this.penguinView.onClickGetPenguin = this.onClickGetPenguin.bind(this);
+            this.view.onClickGet = this.onClickGet.bind(this);
         }
     }, {
-        key: "onClickGetPenguin",
-        value: function onClickGetPenguin(e) {
+        key: "onClickGet",
+        value: function onClickGet(e) {
             var target = e.currentTarget;
-            var index = parseInt(target.dataset.penguinIndex, 10);
+            var index = parseInt(target.dataset.index, 10);
 
-            this.penguinModel.getPenguin(index, this.showPenguin.bind(this));
+            this.model.get(index, this.show.bind(this));
         }
     }, {
-        key: "showPenguin",
-        value: function showPenguin(penguinModelData) {
-            var penguinViewModel = {
-                name: penguinModelData.name,
-                imageUrl: penguinModelData.imageUrl,
-                size: penguinModelData.size,
-                favoriteFood: penguinModelData.favoriteFood
+        key: "show",
+        value: function show(modelData) {
+            var viewModel = {
+                name: modelData.name,
+                imageUrl: modelData.imageUrl,
+                size: modelData.size,
+                favoriteFood: modelData.favoriteFood
             };
 
-            penguinViewModel.previousIndex = penguinModelData.index - 1;
-            penguinViewModel.nextIndex = penguinModelData.index + 1;
+            viewModel.previousIndex = modelData.index - 1;
+            viewModel.nextIndex = modelData.index + 1;
 
-            if (penguinModelData.index === 0) {
-                penguinViewModel.previousIndex = penguinModelData.count - 1;
+            if (modelData.index === 0) {
+                viewModel.previousIndex = modelData.count - 1;
             }
 
-            if (penguinModelData.index === penguinModelData.count - 1) {
-                penguinViewModel.nextIndex = 0;
+            if (modelData.index === modelData.count - 1) {
+                viewModel.nextIndex = 0;
             }
 
-            this.penguinView.render(penguinViewModel);
+            this.view.render(viewModel);
         }
     }]);
 
-    return PenguinController;
+    return Controller;
 }();
 
-module.exports = PenguinController;
+module.exports = Controller;
 
 /***/ })
 /******/ ]);

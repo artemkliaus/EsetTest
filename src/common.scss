@@ -3,13 +3,14 @@
 @import './view/header/header';
 @import './view/banner/banner';
 @import './view/main/main';
+@import './view/popup/popup';
 
-.list-of-penguins {
+.list-of {
     font-size: 100%;
     font-family: 'Roboto', sans-serif;
     color: #555;
 
-    .penguin-image {
+    .image {
         display: block;
         height: 12em;
     }

@@ -1,42 +1,42 @@
-class PenguinController {
+class Controller {
     
-    constructor (penguinView, penguinModel) {
-        this.penguinView = penguinView;
-        this.penguinModel = penguinModel;
+    constructor (view, model) {
+        this.view = view;
+        this.model = model;
     }
     
     initialize () {
-        this.penguinView.onClickGetPenguin = this.onClickGetPenguin.bind(this);
+        this.view.onClickGet = this.onClickGet.bind(this);
     }
     
-    onClickGetPenguin (e) {
+    onClickGet (e) {
         let target = e.currentTarget;
-        let index = parseInt(target.dataset.penguinIndex, 10);
+        let index = parseInt(target.dataset.index, 10);
         
-        this.penguinModel.getPenguin(index, this.showPenguin.bind(this));
+        this.model.get(index, this.show.bind(this));
     }
     
-    showPenguin (penguinModelData) {
-        let penguinViewModel = {
-            name: penguinModelData.name,
-            imageUrl: penguinModelData.imageUrl,
-            size: penguinModelData.size,
-            favoriteFood: penguinModelData.favoriteFood
+    show (modelData) {
+        let viewModel = {
+            name: modelData.name,
+            imageUrl: modelData.imageUrl,
+            size: modelData.size,
+            favoriteFood: modelData.favoriteFood
         };
 
-        penguinViewModel.previousIndex = penguinModelData.index - 1;
-        penguinViewModel.nextIndex = penguinModelData.index + 1;
+        viewModel.previousIndex = modelData.index - 1;
+        viewModel.nextIndex = modelData.index + 1;
 
-        if (penguinModelData.index === 0) {
-            penguinViewModel.previousIndex = penguinModelData.count - 1;
+        if (modelData.index === 0) {
+            viewModel.previousIndex = modelData.count - 1;
         }
 
-        if (penguinModelData.index === penguinModelData.count - 1) {
-            penguinViewModel.nextIndex = 0;
+        if (modelData.index === modelData.count - 1) {
+            viewModel.nextIndex = 0;
         }
         
-        this.penguinView.render(penguinViewModel);
+        this.view.render(viewModel);
     }
 }
 
-module.exports = PenguinController;
+module.exports = Controller;

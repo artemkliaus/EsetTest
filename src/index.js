@@ -1,16 +1,16 @@
 import './common.scss';
 
-import PenguinModel from './model/model.js';
-import PenguinView from './view/view.js';
-import PenguinController from './controller/controller.js';
+import Model from './model/model.js';
+import View from './view/view.js';
+import Controller from './controller/controller.js';
 
-let penguinModel = new PenguinModel(XMLHttpRequest);
+let model = new Model(XMLHttpRequest);
 
-let targetElement = document.getElementById('listOfPenguins');
-let penguinView = new PenguinView(targetElement);
+let targetElement = document.getElementById('listOf');
+let view = new View(targetElement);
 
-let controller = new PenguinController(penguinView, penguinModel);
+let controller = new Controller(view, model);
 
 controller.initialize();
 
-controller.onClickGetPenguin({ currentTarget: { dataset: { penguinIndex: 0 } } });
+controller.onClickGet({ currentTarget: { dataset: { index: 0 } } });

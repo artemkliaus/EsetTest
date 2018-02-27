@@ -1,20 +1,20 @@
-class PenguinModel {
+class Model {
 
     constructor (XMLHttpRequest) {
         this.XMLHttpRequest = XMLHttpRequest;
     }
     
-    getPenguin (index, fn) {
+    get (index, fn) {
         let oReq = new this.XMLHttpRequest();
 
         oReq.onload = function onLoad(e) {
         let ajaxResponse = JSON.parse(e.currentTarget.responseText);
-        let penguin = ajaxResponse[index];
+        let p = ajaxResponse[index];
 
-        penguin.index = index;
-        penguin.count = ajaxResponse.length;
+        p.index = index;
+        p.count = ajaxResponse.length;
 
-        fn(penguin);
+        fn(p);
         };
 
         oReq.open('GET', 'https://codepen.io/beautifulcoder/pen/vmOOLr.js', true);
@@ -22,4 +22,4 @@ class PenguinModel {
     }
 }
 
-module.exports = PenguinModel;
+module.exports = Model;
