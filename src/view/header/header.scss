@@ -6,6 +6,12 @@
     width: 940px;
     margin: 0 auto;
     
+    @include adapt(tablet) {
+        width: 100%;
+        grid-template-columns: 1fr 2fr;
+    }
+    
+    
     &__logo {
         
         &-circle {
@@ -17,6 +23,7 @@
         border-radius: 50%;
         position: relative;
         top: 36px;
+        margin-left: 10px;
         
             &::after {
                 content: '';
@@ -33,6 +40,7 @@
         
         &-text {
             text-transform: uppercase;
+            font-family: 'Nexa-Bold';
             font-size: 24px;
             
             &_green {
@@ -45,6 +53,10 @@
         display: grid;
         grid-template-columns: repeat(6, 1fr);
         
+        @include adapt(phone) {
+            display: none;
+        }
+        
         &-item {
             position: relative;
             display: inline-block;
@@ -53,6 +65,7 @@
             
             &-link {
                 text-decoration: none;
+                font-family: 'Myriad Pro', sans-serif;
                 color: #222;
                 
                 &_active {
@@ -61,26 +74,13 @@
                         content: '';
                         position: absolute;
                         bottom: 31%;
-                        left: 47%;
+                        left: 46%;
                         width: 8px;
                         height: 8px;
                         background-color: #86c840;
                         border-radius: 50%;
                     }
                 }
-            }
-            
-            &-pic {
-                display: inline-block;
-                vertical-align: top;
-                width: 13px;
-                height: 12px;
-                position: absolute;
-                top: calc(50% - 6px);
-                left: calc(50% - 6px);
-                background-image: url(assets/images/home-in-menu.png);
-                background-repeat: no-repeat;
-                background-size: auto;
             }
         }
     }

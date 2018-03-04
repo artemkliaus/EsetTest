@@ -11,14 +11,13 @@
     
     &__popup {
         position: fixed;
-        top: calc(50% - 30vh);
-        left: calc(50% - 30vw);
+        top: calc(50% - 230px);
+        left: calc(50% - 320px);
         display: inline-block;
-        width: 60vw;
-        height: 60vh;
+        width: 640px;
         border-radius: 10px;
         background-color: #fff;
-        padding: 4.7vw;
+        padding: 60px;
     }
     
     &__close {
@@ -31,29 +30,58 @@
         background-color: #000;
     }
     
+    &__form {
+        display: none;
+    }
+    
     &__title {
         font-size: 30px;
-        margin-bottom: 4vh;
+        margin-bottom: 55px;
     }
     
     &__field {
         display: block;
-        width: 35.9375%;
+        width: 228px;
         height: 35px;
-        max-height: 35px;
+        font-size: 14px;
         border: 1px solid #aaa;
         border-radius: 3px;
-        margin-bottom: 4.464285%;
-        padding-top: 5px;
-        padding-left: 4.782608%;
+        margin-bottom: 25px;
+        line-height: 33px;
+        padding-left: 10px;
+        
+        &-text {
+            width: 520px;
+            max-width: 520px;
+            height: 148px;
+            max-height: 148px;
+        }
     }
     
     &__submit {
-        width: 18.75%;
-        height: 42px;
+        width: 120px;
+        height: 40px;
         background-color: #86c840;
         color: #fff;
         border-radius: 5px;
         font-size: 16px;
+        text-transform: uppercase;
+    }
+    
+    &__response {
+        
+        &-text {
+            font-size: 17px;
+            margin-bottom: 15px;
+        }
+        
+        &-status {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        &-id {
+            font-size: 14px;
+        }
     }
 }

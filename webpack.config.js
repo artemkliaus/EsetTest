@@ -1,10 +1,12 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SpritesmithPlugin = require('webpack-spritesmith');
 
 module.exports = {
+    context: path.resolve(__dirname, "src"),
     devtool: 'source-map',
-    entry: './src/index.js',
+    entry: './index.js',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
@@ -39,13 +41,33 @@ module.exports = {
                         },
                     },
                 ],
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file-loader'
             }
         ]
+    },
+    resolve: {
+        modules: ["node_modules", "spritesmith-generated"]
     },
     plugins: [
         new ExtractTextPlugin('styles.css'),
         new HtmlWebpackPlugin({
-            template: './src/index.html'
+            template: './index.html'
         }),
+        new SpritesmithPlugin({
+            src: {
+                cwd: path.resolve(__dirname, 'src/assets/images'),
+                glob: '*.png'
+            },
+            target: {
+                image: path.resolve(__dirname, 'dist/sprite/sprite.png'),
+                css: path.resolve(__dirname, 'dist/sprite/sprite.css')
+            },
+            apiOptions: {
+                cssImageRef: "./sprite.png"
+            }
+        })
     ]
 };

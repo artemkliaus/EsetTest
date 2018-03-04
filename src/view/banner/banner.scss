@@ -3,12 +3,21 @@
     background-color: #f1f1f1;
     margin-bottom: 55px;
     
+    @include adapt(tablet) {
+        width: 100%;
+        padding: 0 1%;
+    }
+    
     &__block {
         height: 150px;
         position: relative;
         width: 940px;
         margin-left: auto;
         margin-right: auto;
+        
+        @include adapt(tablet) {
+            width: 100%;
+        }
     }
     
     &__quotes-block {
@@ -35,11 +44,17 @@
     
     &__text {
         font-size: 28px;
+        font-family: 'ProximaNova-Light';
         text-align: center;
         max-width: 780px;
         margin-left: auto;
         margin-right: auto;
         position: relative;
         top: 43px;
+        
+        @include adapt(tablet) {
+            width: 80%;
+            font-size: 20px;
+        }
     }
 }

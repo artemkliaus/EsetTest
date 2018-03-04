@@ -3,6 +3,10 @@
     width: 300px;
     height: 280px;
     
+    @include adapt(tablet) {
+       margin: 0 auto;
+    }
+    
     &__image-block {
         position: relative;
         width: 100%;
@@ -12,15 +16,16 @@
         cursor: pointer;
         
         &:hover .card-block__hover-block {
-            display: block;
+            display: grid;
         }
     }
     
     &__hover-block {
+        display: none;
+        grid-template-columns: 3fr 1fr 1fr 1fr;
         position: absolute;
         bottom: 1%;
         left: 1%;
-        display: none;
         width: 98%;
         height: 40px;
         background-color: rgba(0, 0, 0, 0.5);
@@ -31,6 +36,22 @@
         
         &-date {
             margin-left: 10px;
+            font-family: 'ProximaNova-Semibold';
+        }
+        
+        &-eye {
+            &-icon {
+                position: relative;
+                top: 1px;
+                margin-right: 2px;
+            }
+        }
+        
+        &-text {
+            text-align: center;
+        }
+        
+        &-download {
         }
     }
     
@@ -44,14 +65,17 @@
         
         &-title {
             font-size: 17px;
+            font-family: 'NexaSlab-xBold';
         }
         
         &-description {
             font-size: 14px;
+            font-family: 'ProximaNova-Semibold';
             color: #aaa;
         }
         
         &-pic {
+            
             display: inline-block;
             vertical-align: top;
             position: absolute;
@@ -61,6 +85,12 @@
             height: 30px;
             background-color: #86c840;
             border-radius: 50%;
+            
+            &-icon {
+                position: relative;
+                top: calc(50% - 8px);
+                left: calc(50% - 4px);
+            }
         }
     }
 }

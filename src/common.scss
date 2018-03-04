@@ -1,9 +1,11 @@
 @import './assets/scss/reset';
+@import './assets/scss/fonts';
 @import './assets/scss/adapt';
 @import './view/header/header';
 @import './view/banner/banner';
 @import './view/main/main';
 @import './view/popup/popup';
+@import './view/footer/footer';
 
 .list-of {
     font-size: 100%;
@@ -28,4 +30,8 @@
     .next {
         margin-left: 1.5em;
     }
+}
+
+.icon {
+    display: inline-block;
 }
