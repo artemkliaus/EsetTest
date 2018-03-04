@@ -1,4 +1,5 @@
 .popup-block {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -23,6 +24,7 @@
     &__close {
         position: absolute;
         display: inline-block;
+        cursor: pointer;
         width: 15px;
         height: 15px;
         top: 15px;
@@ -31,7 +33,7 @@
     }
     
     &__form {
-        display: none;
+        display: block;
     }
     
     &__title {
@@ -70,6 +72,8 @@
     
     &__response {
         
+        display: none;
+        
         &-text {
             font-size: 17px;
             margin-bottom: 15px;
@@ -83,5 +87,13 @@
         &-id {
             font-size: 14px;
         }
+    }
+    
+    &_show {
+        display: block;
+    }
+    
+    &_hide {
+        display: none;
     }
 }

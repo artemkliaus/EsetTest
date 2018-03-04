@@ -1,24 +1,36 @@
+let _private = {}
+
 class Model {
 
-    constructor (XMLHttpRequest) {
-        this.XMLHttpRequest = XMLHttpRequest;
+    constructor () {}
+    
+    getData (data, cb) {
+        let xhr = new XMLHttpRequest(),
+            url = 'https://api2.esetnod32.ru/frontend/test/',
+            getParams = '?' + 'title=' + data.name + '&email=' + data.email + '&text=' + data.text;
+
+        xhr.open('GET', url + getParams, true);
+        
+        xhr.send();
+        
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState != 4) return;
+            
+            if (xhr.status != 200) {
+                alert(xhr.status + ': ' + xhr.statusText);
+            } else {
+                cb(xhr.responseText);
+            }
+        }
     }
     
-    get (index, fn) {
-        let oReq = new this.XMLHttpRequest();
-
-        oReq.onload = function onLoad(e) {
-        let ajaxResponse = JSON.parse(e.currentTarget.responseText);
-        let p = ajaxResponse[index];
-
-        p.index = index;
-        p.count = ajaxResponse.length;
-
-        fn(p);
-        };
-
-        oReq.open('GET', 'https://codepen.io/beautifulcoder/pen/vmOOLr.js', true);
-        oReq.send();
+    instance () {
+        console.log(this);
+        if (_private.instance) {
+            return _private.instance;
+        } else {
+            _private.instance = new Model();
+        }
     }
 }
 

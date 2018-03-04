@@ -1,41 +1,34 @@
+import View from '../view/view.js';
+
 class Controller {
     
-    constructor (view, model) {
-        this.view = view;
-        this.model = model;
+    constructor () {
+        this.arrayOfComponents = [];
     }
     
     initialize () {
-        this.view.onClickGet = this.onClickGet.bind(this);
+        let components = document.querySelectorAll('.js-active');
+        
+        components.forEach(this.getComponent.bind(this));
+        this.initComponents();
+        
     }
     
-    onClickGet (e) {
-        let target = e.currentTarget;
-        let index = parseInt(target.dataset.index, 10);
-        
-        this.model.get(index, this.show.bind(this));
+    getComponent (el) {
+        let control = el.getAttribute('data-control');
+        let component = {}
+        if(control) {
+            component.control = control;
+            component.element = el;
+            this.arrayOfComponents.push(component);
+            
+        } else {
+            console.warn(el, "[DATA-CONTROL DON'T FOUND]");
+        }
     }
     
-    show (modelData) {
-        let viewModel = {
-            name: modelData.name,
-            imageUrl: modelData.imageUrl,
-            size: modelData.size,
-            favoriteFood: modelData.favoriteFood
-        };
-
-        viewModel.previousIndex = modelData.index - 1;
-        viewModel.nextIndex = modelData.index + 1;
-
-        if (modelData.index === 0) {
-            viewModel.previousIndex = modelData.count - 1;
-        }
-
-        if (modelData.index === modelData.count - 1) {
-            viewModel.nextIndex = 0;
-        }
-        
-        this.view.render(viewModel);
+    initComponents () {
+        let init = new View(this.arrayOfComponents);
     }
 }
 

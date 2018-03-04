@@ -72,30 +72,17 @@
 
 __webpack_require__(1);
 
-var _model = __webpack_require__(2);
-
-var _model2 = _interopRequireDefault(_model);
-
-var _view = __webpack_require__(3);
-
-var _view2 = _interopRequireDefault(_view);
-
-var _controller = __webpack_require__(4);
+var _controller = __webpack_require__(12);
 
 var _controller2 = _interopRequireDefault(_controller);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var model = new _model2.default(XMLHttpRequest);
+//Доделать не успел, сорян :(
 
-var targetElement = document.getElementById('listOf');
-var view = new _view2.default(targetElement);
-
-var controller = new _controller2.default(view, model);
+var controller = new _controller2.default();
 
 controller.initialize();
-
-controller.onClickGet({ currentTarget: { dataset: { index: 0 } } });
 
 /***/ }),
 /* 1 */
@@ -104,81 +91,115 @@ controller.onClickGet({ currentTarget: { dataset: { index: 0 } } });
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 2 */
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _view = __webpack_require__(14);
+
+var _view2 = _interopRequireDefault(_view);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Model = function () {
-    function Model(XMLHttpRequest) {
-        _classCallCheck(this, Model);
+var Controller = function () {
+    function Controller() {
+        _classCallCheck(this, Controller);
 
-        this.XMLHttpRequest = XMLHttpRequest;
+        this.arrayOfComponents = [];
     }
 
-    _createClass(Model, [{
-        key: 'get',
-        value: function get(index, fn) {
-            var oReq = new this.XMLHttpRequest();
+    _createClass(Controller, [{
+        key: 'initialize',
+        value: function initialize() {
+            var components = document.querySelectorAll('.js-active');
 
-            oReq.onload = function onLoad(e) {
-                var ajaxResponse = JSON.parse(e.currentTarget.responseText);
-                var p = ajaxResponse[index];
-
-                p.index = index;
-                p.count = ajaxResponse.length;
-
-                fn(p);
-            };
-
-            oReq.open('GET', 'https://codepen.io/beautifulcoder/pen/vmOOLr.js', true);
-            oReq.send();
+            components.forEach(this.getComponent.bind(this));
+            this.initComponents();
+        }
+    }, {
+        key: 'getComponent',
+        value: function getComponent(el) {
+            var control = el.getAttribute('data-control');
+            var component = {};
+            if (control) {
+                component.control = control;
+                component.element = el;
+                this.arrayOfComponents.push(component);
+            } else {
+                console.warn(el, "[DATA-CONTROL DON'T FOUND]");
+            }
+        }
+    }, {
+        key: 'initComponents',
+        value: function initComponents() {
+            var init = new _view2.default(this.arrayOfComponents);
         }
     }]);
 
-    return Model;
+    return Controller;
 }();
 
-module.exports = Model;
+module.exports = Controller;
 
 /***/ }),
-/* 3 */
+/* 13 */,
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _cardBlock = __webpack_require__(15);
+
+var _cardBlock2 = _interopRequireDefault(_cardBlock);
+
+var _popup = __webpack_require__(16);
+
+var _popup2 = _interopRequireDefault(_popup);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var View = function () {
-    function View(element) {
+    function View(components) {
         _classCallCheck(this, View);
 
-        this.element = element;
+        this.modules = {
+            CardBlock: _cardBlock2.default,
+            Popup: _popup2.default
+        };
 
-        this.onClickGet = null;
+        try {
+            components.forEach(this.initializeComponents.bind(this));
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     _createClass(View, [{
-        key: 'render',
-        value: function render(viewModel) {
-            this.element.innerHTML = '<h3>' + viewModel.name + '</h3>' + '<img class="image" src="' + viewModel.imageUrl + '" alt="' + viewModel.name + '" />' + '<p><b>Size:</b> ' + viewModel.size + '</p>' + '<p><b>Favorite food:</b> ' + viewModel.favoriteFood + '</p>' + '<a id="previous" class="previous button" href="javascript:void(0);"' + ' data-index="' + viewModel.previousIndex + '">Previous</a> ' + '<a id="next" class="next button" href="javascript:void(0);"' + ' data-index="' + viewModel.nextIndex + '">Next</a>';
-
-            this.previousIndex = viewModel.previousIndex;
-            this.nextIndex = viewModel.nextIndex;
-
-            var previous = this.element.querySelector('#previous');
-            previous.addEventListener('click', this.onClickGet);
-
-            var next = this.element.querySelector('#next');
-            next.addEventListener('click', this.onClickGet);
+        key: 'initializeComponents',
+        value: function initializeComponents(el, i) {
+            var module = this.modules[el.control];
+            var instance = new module(el.element);
         }
     }]);
 
@@ -188,7 +209,7 @@ var View = function () {
 module.exports = View;
 
 /***/ }),
-/* 4 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -198,56 +219,181 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Controller = function () {
-    function Controller(view, model) {
-        _classCallCheck(this, Controller);
+var _private = {};
 
-        this.view = view;
-        this.model = model;
+var CardBlock = function () {
+    function CardBlock(element) {
+        _classCallCheck(this, CardBlock);
+
+        this.element = element;
+        this.initialize();
     }
 
-    _createClass(Controller, [{
-        key: "initialize",
+    _createClass(CardBlock, [{
+        key: 'initialize',
         value: function initialize() {
-            this.view.onClickGet = this.onClickGet.bind(this);
+            this.element.addEventListener('click', this.clickHandler.bind(this));
         }
     }, {
-        key: "onClickGet",
-        value: function onClickGet(e) {
-            var target = e.currentTarget;
-            var index = parseInt(target.dataset.index, 10);
+        key: 'clickHandler',
+        value: function clickHandler(event) {
+            var eventShowPopup = new Event('showPopup', { 'bubbles': true });
 
-            this.model.get(index, this.show.bind(this));
-        }
-    }, {
-        key: "show",
-        value: function show(modelData) {
-            var viewModel = {
-                name: modelData.name,
-                imageUrl: modelData.imageUrl,
-                size: modelData.size,
-                favoriteFood: modelData.favoriteFood
-            };
-
-            viewModel.previousIndex = modelData.index - 1;
-            viewModel.nextIndex = modelData.index + 1;
-
-            if (modelData.index === 0) {
-                viewModel.previousIndex = modelData.count - 1;
-            }
-
-            if (modelData.index === modelData.count - 1) {
-                viewModel.nextIndex = 0;
-            }
-
-            this.view.render(viewModel);
+            this.element.dispatchEvent(eventShowPopup);
+            console.log('dispch');
         }
     }]);
 
-    return Controller;
+    return CardBlock;
 }();
 
-module.exports = Controller;
+module.exports = CardBlock;
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _model = __webpack_require__(17);
+
+var _model2 = _interopRequireDefault(_model);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _private = {};
+
+var Popup = function () {
+    function Popup(element) {
+        _classCallCheck(this, Popup);
+
+        this.element = element;
+        this.closeButton = this.element.querySelector(_private.selectors.close);
+        this.submitButton = this.element.querySelector(_private.selectors.submit);
+        this.model = new _model2.default();
+        this.initialize();
+    }
+
+    _createClass(Popup, [{
+        key: 'initialize',
+        value: function initialize() {
+            window.addEventListener('showPopup', function (event) {
+                this.element.classList.add(_private.modifiers.show);
+            }.bind(this));
+
+            this.element.addEventListener('click', this.clickHandler.bind(this));
+        }
+    }, {
+        key: 'clickHandler',
+        value: function clickHandler(event) {
+            if (event.target == this.closeButton || event.target == this.element) {
+                console.log(event.target);
+                this.element.classList.remove(_private.modifiers.show);
+            }
+
+            if (event.target == this.submitButton) {
+                event.preventDefault();
+
+                var data = {};
+                data.name = 'vasya';
+                data.email = 'vasya@mail.ru';
+                data.text = 'Hello World';
+
+                this.model.getData(data, this.responseHandler.bind(this));
+            }
+        }
+    }, {
+        key: 'responseHandler',
+        value: function responseHandler(data) {
+            var response = JSON.parse(data),
+                responseBlock = this.element.querySelector(_private.selectors.response),
+                formBlock = this.element.querySelector(_private.selectors.form);
+            formBlock.classList.add(_private.modifiers.hide);
+            responseBlock.classList.add(_private.modifiers.show);
+            console.log(response);
+        }
+    }]);
+
+    return Popup;
+}();
+
+_private.selectors = {
+    close: '.popup-block__close',
+    submit: '.popup-block__submit',
+    form: '.popup-block__form',
+    response: '.popup-block__response',
+    nameField: '.popup-block__field-name',
+    email: '.popup-block__field-email',
+    text: '.popup-block__field-text'
+};
+
+_private.modifiers = {
+    'show': 'popup-block_show',
+    'hide': 'popup-block_hide'
+};
+
+module.exports = Popup;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _private = {};
+
+var Model = function () {
+    function Model() {
+        _classCallCheck(this, Model);
+    }
+
+    _createClass(Model, [{
+        key: 'getData',
+        value: function getData(data, cb) {
+            var xhr = new XMLHttpRequest(),
+                url = 'https://api2.esetnod32.ru/frontend/test/',
+                getParams = '?' + 'title=' + data.name + '&email=' + data.email + '&text=' + data.text;
+
+            xhr.open('GET', url + getParams, true);
+
+            xhr.send();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState != 4) return;
+
+                if (xhr.status != 200) {
+                    alert(xhr.status + ': ' + xhr.statusText);
+                } else {
+                    cb(xhr.responseText);
+                }
+            };
+        }
+    }, {
+        key: 'instance',
+        value: function instance() {
+            console.log(this);
+            if (_private.instance) {
+                return _private.instance;
+            } else {
+                _private.instance = new Model();
+            }
+        }
+    }]);
+
+    return Model;
+}();
+
+module.exports = Model;
 
 /***/ })
 /******/ ]);
